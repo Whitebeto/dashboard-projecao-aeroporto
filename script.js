@@ -1,41 +1,43 @@
-// script.js
+const SHEET_ID = '17nTgtnPGyKNKNXggPwKASwYIp8aD8BM__KNhY5jscdg';
+const GID = '1632616135';
 
-// Function to fetch data from Google Sheets
 async function fetchData() {
-    const sheetID = '1YNTRBLTzp1znjqt8XW2xP9mUTJr22NffIbJv03TqGTE';
-    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?tqx=out:csv`;
-
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=${GID}`;
     try {
         const response = await fetch(url);
         const data = await response.text();
-        parseCSV(data);
+        const parsed = parseCSV(data);
+        renderTable(parsed);
     } catch (error) {
-        console.error('Error fetching data: ', error);
+        console.error('Erro:', error);
+        document.getElementById('data-body').innerHTML = '<tr><td colspan="7">❌ Erro ao carregar</td></tr>';
     }
 }
 
-// Function to parse CSV data and populate the table
-function parseCSV(data) {
-    const lines = data.split('\n');
-    const table = document.getElementById('data-table');
-    table.innerHTML = ''; // Clear existing table data
-
-    lines.forEach((line, index) => {
-        const row = document.createElement('tr');
-        const cells = line.split(',');
-
-        cells.forEach(cell => {
-            const cellElement = document.createElement('td');
-            cellElement.textContent = cell;
-            row.appendChild(cellElement);
+function parseCSV(csv) {
+    const lines = csv.split('\n').filter(l => l.trim());
+    const headers = lines[0].split(',').map(h => h.trim());
+    const data = [];
+    for (let i = 1; i < lines.length; i++) {
+        const cells = lines[i].split(',');
+        const row = {};
+        headers.forEach((h, idx) => {
+            row[h] = cells[idx] ? cells[idx].trim() : '';
         });
+        data.push(row);
+    }
+    return data;
+}
 
-        table.appendChild(row);
+function renderTable(data) {
+    const tbody = document.getElementById('data-body');
+    tbody.innerHTML = '';
+    data.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${row.cutoff || '-'}</td><td>${row.hora || '-'}</td><td>${row.tipo || '-'}</td><td>${row.shipment || '0'}</td><td>${row.transbordo || '0'}</td><td>${row.canal || '-'}</td><td>${row.dia_semana || '-'}</td>`;
+        tbody.appendChild(tr);
     });
 }
 
-// Fetch data when the page loads
-window.onload = () => {
-    fetchData();
-    setInterval(fetchData, 30000); // Refresh data every 30 seconds
-};
+document.addEventListener('DOMContentLoaded', fetchData);
+setInterval(fetchData, 30000);
