@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Projeção Aeroporto</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>✈️ Dashboard de Projeção</h1>
+            <p class="subtitle">Dados em tempo real do Google Sheets</p>
+        </header>
+        
+        <div class="table-container">
+            <table class="dashboard-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Hora de Chegada</th>
+                        <th>Produto A (Un.)</th>
+                        <th>Produto B (Un.)</th>
+                        <th>Origem</th>
+                    </tr>
+                </thead>
+                <tbody id="data-body">
+                    <tr class="loading">
+                        <td colspan="5">Carregando dados...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
