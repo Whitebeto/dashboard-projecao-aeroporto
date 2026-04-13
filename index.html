@@ -10,26 +10,46 @@
     <div class="container">
         <header class="header">
             <h1>✈️ Dashboard de Projeção</h1>
-            <p class="subtitle">Dados em tempo real do Google Sheets</p>
+            <p class="subtitle">Dados em tempo real - Linha do Tempo 6h às 5h</p>
         </header>
         
+        <div class="filters">
+            <select id="tipoFiltro" class="filter-select">
+                <option value="">Todos os Tipos</option>
+            </select>
+            <select id="canalFiltro" class="filter-select">
+                <option value="">Todos os Canais</option>
+            </select>
+        </div>
+
+        <div class="timeline-container">
+            <h2>Linha do Tempo (6h - 5h)</h2>
+            <div class="timeline" id="timeline"></div>
+        </div>
+
         <div class="table-container">
+            <h2>Dados Detalhados</h2>
             <table class="dashboard-table">
                 <thead>
                     <tr>
-                        <th>Data</th>
-                        <th>Hora de Chegada</th>
-                        <th>Produto A (Un.)</th>
-                        <th>Produto B (Un.)</th>
-                        <th>Origem</th>
+                        <th>Cutoff (Data)</th>
+                        <th>Hora</th>
+                        <th>Tipo</th>
+                        <th>Shipment</th>
+                        <th>Transbordo</th>
+                        <th>Canal</th>
+                        <th>Dia Semana</th>
                     </tr>
                 </thead>
                 <tbody id="data-body">
-                    <tr class="loading">
-                        <td colspan="5">Carregando dados...</td>
-                    </tr>
+                    <tr><td colspan="7">Carregando...</td></tr>
                 </tbody>
             </table>
+        </div>
+
+        <div class="summary-container">
+            <h2>Resumo por Tipo</h2>
+            <div id="summary"></div>
         </div>
     </div>
     <script src="script.js"></script>
